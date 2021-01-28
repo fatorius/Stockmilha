@@ -59,7 +59,7 @@ class Stockmilha:
 
     def updateCandidates(self, goodNumbers, regularNumbers):
         if not self.checkEvaluation(goodNumbers, regularNumbers):
-            raise Exception("Esta avaliação não é válida")
+            raise Exception("Esta avaliação não é válida: {}B {}R".format(goodNumbers, regularNumbers))
         
         self.goodNumbers = goodNumbers
         self.regularNumbers = regularNumbers
@@ -73,8 +73,7 @@ class Stockmilha:
                 self.newCandidatesList.append(candidate)
 
         if len(self.newCandidatesList) == 0:
-            pass
-            #raise Exception("Foi detectado uma incoerência nas suas respostas, nenhum número se aplica")
+            raise Exception("Foi detectado uma incoerência nas suas respostas, nenhum número se aplica")
         else:
             self.candidateGuesses = self.newCandidatesList
 
@@ -85,8 +84,6 @@ class Stockmilha:
         if self.tempGood > 4 or self.tempRegular > 4:
             return False
         if self.tempGood + self.tempRegular > 4:
-            return False
-        if self.tempRegular == 4:
             return False
         if self.tempGood == 3 and self.tempRegular == 1:
             return False
