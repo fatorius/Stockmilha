@@ -1,4 +1,5 @@
-#um programa que joga o jogo do milhar contra o usuário
+#this module contains the stockmilha class
+#an algorithm that plays the JOGO DO MILHAR with a good precision
 #copyright (c) 2021 hugosouza
 
 '''
@@ -52,26 +53,45 @@ class Stockmilha:
         return self.evaluate(self.number, self.hisShot)
 
     def makeAGuess(self):
-        self.currentGuess = choices(self.candidateGuesses)
+        self.currentGuess = str(choices(self.candidateGuesses)[0])
 
         return self.currentGuess
 
     def updateCandidates(self, goodNumbers, regularNumbers):
+        if not self.checkEvaluation(goodNumbers, regularNumbers):
+            raise Exception("Esta avaliação não é válida")
+        
         self.goodNumbers = goodNumbers
         self.regularNumbers = regularNumbers
 
         self.newCandidatesList = []
 
         for candidate in self.candidateGuesses:
-            self.tempEvaluation = self.evaluate(self.currentGuess, candidate)
+            self.tempEvaluation = self.evaluate(self.currentGuess, str(candidate))
 
             if self.tempEvaluation["b"] == self.goodNumbers and self.tempEvaluation["r"] == self.regularNumbers:
                 self.newCandidatesList.append(candidate)
 
         if len(self.newCandidatesList) == 0:
-            raise Exception("Foi detectado uma incoerência nas suas respostas, nenhum número se aplica")
+            pass
+            #raise Exception("Foi detectado uma incoerência nas suas respostas, nenhum número se aplica")
         else:
             self.candidateGuesses = self.newCandidatesList
+
+    def checkEvaluation(self, good, regular):
+        self.tempGood = good
+        self.tempRegular = regular
+
+        if self.tempGood > 4 or self.tempRegular > 4:
+            return False
+        if self.tempGood + self.tempRegular > 4:
+            return False
+        if self.tempRegular == 4:
+            return False
+        if self.tempGood == 3 and self.tempRegular == 1:
+            return False
+        
+        return True
 
     def isNumberValid(self, candidateNumber):
         self.candidateNumber = candidateNumber
@@ -103,4 +123,4 @@ class Stockmilha:
     def chooseNumber(self):
         self.validNumbers = self.generateValidNumbers()
 
-        return choices(self.validNumbers)
+        return str(choices(self.validNumbers)[0])
