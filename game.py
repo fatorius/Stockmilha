@@ -18,6 +18,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #email: contato@hugosouza.com 
 
+#TODO put everything in functions
+
 import stockmilha
 
 stockmilha = stockmilha.Stockmilha()
